@@ -29,7 +29,7 @@ axios.interceptors.response.use(
                     Message.error('登录已失效，请重新登录后再试');
                     localStorage.clear();
                     Cookies.remove('token');
-                    router.push({ path: '/login' });
+                    router.push({ path: '/' });
                     break;
                 case 500:
                     Message.error(
