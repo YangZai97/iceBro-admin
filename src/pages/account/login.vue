@@ -6,9 +6,9 @@
             <div class="news-image login_img"></div>
             <div class="news-caption" style="background:none">
                 <h4 class="caption-title">
-                    <b>智凡短信接码</b>
+                    <b>冻友App管理平台</b>
                 </h4>
-                <p>© 智凡 All Right Reserved 2020</p>
+                <p>© 冻友 All Right Reserved 2020</p>
             </div>
         </div>
         <!-- end news-feed -->
@@ -20,7 +20,7 @@
                     <div class="flex acent">
                         <div class="bgc_logo_guava"></div>
                         <div>
-                            <b>智凡短信接码</b>
+                            <b>冻友App管理平台</b>
                         </div>
                     </div>
                     <small></small>
@@ -60,7 +60,7 @@
                 </div>
                 <!-- Not a member yet? Click here to register. -->
                 <hr/>
-                <p class="text-center text-grey-darker">&copy; 智凡 All Right Reserved 2020</p>
+                <p class="text-center text-grey-darker">&copy; 冻友 All Right Reserved 2020</p>
             </div>
             <!-- end login-content -->
         </div>
