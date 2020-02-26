@@ -7,7 +7,51 @@
                       clearable>
             </el-input>
             <el-button>查询</el-button>
-            <el-button type="primary">新增</el-button>
+            <el-button type="primary"
+                       @click="dialogFormVisible = true">新增</el-button>
+            <el-dialog title="账号信息"
+                       :visible.sync="dialogFormVisible"
+                       width="370px"
+                       center>
+                <el-form :model="form">
+                        <el-form-item label="手机"
+                                      :label-width="formLabelWidth">
+                            <el-input v-model="form.phone"
+                                      autocomplete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="密码"
+                                      :label-width="formLabelWidth">
+                            <el-input v-model="form.password"
+                                      autocomplete="off"
+                                      show-password></el-input>
+                        </el-form-item>
+                        <el-form-item label="账号状态"
+                                      :label-width="formLabelWidth">
+                            <el-select v-model="form.status"
+                                       placeholder="请选择账号状态">
+                                <el-option label="正常"
+                                           value="zhengchang"></el-option>
+                                <el-option label="冻结"
+                                           value="dongjie"></el-option>
+                                <el-option label="可用"
+                                           value="keyong"></el-option>
+                                <el-option label="拉黑"
+                                           value="lahei"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="车牌"
+                                      :label-width="formLabelWidth">
+                            <el-input v-model="form.car"
+                                      autocomplete="off"></el-input>
+                        </el-form-item>
+                </el-form>
+                <div slot="footer"
+                     class="dialog-footer">
+                    <el-button @click="dialogFormVisible = false">取 消</el-button>
+                    <el-button type="primary"
+                               @click="dialogFormVisible = false">确 定</el-button>
+                </div>
+            </el-dialog>
         </div>
         <div>
             <el-table :data="tableData"
@@ -43,7 +87,7 @@
                 </el-table-column>
             </el-table>
         </div>
-        <div>
+        <div class="page">
             <el-pagination @current-change="handleCurrentChange"
                            :current-page="currentPage"
                            :page-size="20"
@@ -60,6 +104,14 @@
 export default {
     data () {
         return {
+            dialogFormVisible: false,
+            formLabelWidth: '120px',
+            form: {
+                phone: '',
+                password: '',
+                status: '',
+                car: ''
+            },
             currentPage: 1,
             searchValue: '',
             tableData: [{
@@ -105,5 +157,8 @@ export default {
 .user-input {
     width: 40%;
     padding-right: 20px;
+}
+.page {
+    text-align: center;
 }
 </style>
