@@ -1,27 +1,9 @@
 <script>
     const sidebarMenu = [
-        {path: '/', icon: 'fa fa-th', title: 'Home'},
-        {
-            path: '/menu', icon: 'fa fa-align-left', title: 'Menu Level',
-            children: [
-                {
-                    path: '/menu/menu-1-1', title: 'Menu 1.1',
-                    children: [
-                        {
-                            path: '/menu/menu-1-1/menu-2-1', title: 'Menu 2.1',
-                            children: [
-                                {path: '/menu/menu-1-1/menu-2-1/menu-3-1', title: 'Menu 3.1'},
-                                {path: '/menu/menu-1-1/menu-2-1/menu-3-2', title: 'Menu 3.2'}
-                            ]
-                        },
-                        {path: '/menu/menu-1-1/menu-2-2', title: 'Menu 2.2'},
-                        {path: '/menu/menu-1-1/menu-2-3', title: 'Menu 2.3'},
-                    ]
-                },
-                {path: '/menu/menu-1-2', title: 'Menu 1.2'},
-                {path: '/menu/menu-1-3', title: 'Menu 1.3'},
-            ]
-        },
+        {path: '/user', icon: 'fas fa-user', title: '用户管理'},
+        {path: '/order', icon: 'fa fa-th', title: '订单管理'},
+        {path: '/person', icon: 'fa fa-users', title: '客户管理'},
+        {path: '/bill', icon: 'fas fa-cart-arrow-down', title: '营收管理'},
     ];
 
     export default sidebarMenu;

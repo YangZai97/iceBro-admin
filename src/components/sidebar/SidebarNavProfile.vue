@@ -1,18 +1,5 @@
 <template>
     <ul class="nav">
-        <li class="nav-profile">
-            <a href="javascript:;" v-on:click="expand()">
-                <div class="cover with-shadow"></div>
-                <div class="image image-icon bg-black text-grey-darker">
-                    <i class="fa fa-user"></i>
-                </div>
-                <div class="info">
-                    <b class="caret pull-right"></b>
-                    Sean Ngu
-                    <small>Front end developer</small>
-                </div>
-            </a>
-        </li>
         <li>
             <ul class="nav nav-profile"
                 v-bind:class="{ 'd-block': this.stat == 'expand' && !this.pageOptions.pageSidebarMinified, 'd-none': this.stat == 'collapse' }">

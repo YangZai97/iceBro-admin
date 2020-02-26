@@ -10,17 +10,19 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <router-link class="navbar-brand" to="/dashboard/v2"><span class="navbar-logo"></span> <b>Color</b>
-                    Admin
+                <router-link class="navbar-brand" to="/dashboard/v2"><span class="navbar-logo"></span> <b
+                    style="margin-right: 4px">冻友后台管理 </b>
                 </router-link>
-                <button class="navbar-toggle pt-0 pb-0 mr-0 collapsed" type="button" v-if="pageOptions.pageWithTopMenu && !pageOptions.pageWithoutSidebar"
+                <button class="navbar-toggle pt-0 pb-0 mr-0 collapsed" type="button"
+                        v-if="pageOptions.pageWithTopMenu && !pageOptions.pageWithoutSidebar"
                         v-on:click="toggleMobileTopMenu">
 					<span class="fa-stack fa-lg text-inverse">
 						<i class="far fa-square fa-stack-2x"></i>
 						<i class="fa fa-cog fa-stack-1x"></i>
 					</span>
                 </button>
-                <button class="navbar-toggle" type="button" v-if="pageOptions.pageWithTopMenu && pageOptions.pageWithoutSidebar"
+                <button class="navbar-toggle" type="button"
+                        v-if="pageOptions.pageWithTopMenu && pageOptions.pageWithoutSidebar"
                         v-on:click="toggleMobileTopMenu">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -46,24 +48,7 @@
 
             <!-- begin header-nav -->
             <ul class="navbar-nav navbar-right">
-                <li class="navbar-form">
-                    <form name="search_form" v-on:submit="checkForm">
-                        <div class="form-group">
-                            <input class="form-control" placeholder="Enter keyword" type="text"/>
-                            <button class="btn btn-search" type="submit"><i class="fa fa-search"></i></button>
-                        </div>
-                    </form>
-                </li>
-                <b-nav-item-dropdown menu-class="media-list dropdown-menu-right" no-caret toggle-class="f-s-14">
-                    <template slot="button-content">
-                        <i class="fa fa-bell"></i>
-                        <span class="label">0</span>
-                    </template>
-                    <b-dropdown-header>NOTIFICATIONS (0)</b-dropdown-header>
-                    <b-dropdown-item class="text-center width-300" href="javascript:;">
-                        No notification found
-                    </b-dropdown-item>
-                </b-nav-item-dropdown>
+
                 <b-nav-item-dropdown menu-class="navbar-language" no-caret v-if="pageOptions.pageWithLanguageBar">
                     <template slot="button-content">
                         <span class="flag-icon flag-icon-us mr-1" title="us"></span>
@@ -81,20 +66,14 @@
                     <b-dropdown-divider class="m-b-0"></b-dropdown-divider>
                     <b-dropdown-item class="text-center" href="javascript:;">more options</b-dropdown-item>
                 </b-nav-item-dropdown>
-                <b-nav-item-dropdown class="dropdown navbar-user" menu-class="dropdown-menu-right" no-caret>
-                    <template slot="button-content">
-                        <div class="image image-icon bg-black text-grey-darker">
-                            <i class="fa fa-user"></i>
-                        </div>
-                        <span style="font-size: 14px" class=" d-md-inline">Admin</span> <b class="caret"></b>
+                <b-nav-item-dropdown class="dropdown navbar-user" menu-class="dropdown-menu-right" no-caret v-else>
+                    <template slot="button-content" v-if="!usernameStatus">
+                        <span class="d-none d-md-inline" @click="logOut">登录</span>
                     </template>
-                    <b-dropdown-item href="javascript:;">Edit Profile</b-dropdown-item>
-                    <b-dropdown-item href="javascript:;"><span class="badge badge-danger pull-right">0</span> Inbox
-                    </b-dropdown-item>
-                    <b-dropdown-item href="javascript:;">Calendar</b-dropdown-item>
-                    <b-dropdown-item href="javascript:;">Setting</b-dropdown-item>
-                    <b-dropdown-divider></b-dropdown-divider>
-                    <b-dropdown-item href="javascript:;">Log Out</b-dropdown-item>
+                    <template slot="button-content" v-else>
+                        <span class="d-none d-md-inline">Admin</span>
+                    </template>
+                    <b-dropdown-item @click="logOut">退出登录</b-dropdown-item>
                 </b-nav-item-dropdown>
                 <li class="divider d-none d-md-block" v-if="pageOptions.pageWithTwoSidebar"></li>
                 <li class="d-none d-md-block" v-if="pageOptions.pageWithTwoSidebar">
@@ -118,12 +97,28 @@
         components: {
             HeaderMegaMenu
         },
+        computed: {
+            usernameStatus() {
+                if (this.cookies.get('token')) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        },
         data() {
             return {
-                pageOptions: PageOptions
+                pageOptions: PageOptions,
+                isAdmin: false
             };
         },
         methods: {
+            logOut() {
+                localStorage.clear();
+                this.cookies.remove('token');
+                this.$router.push({path: '/'});
+                // 这里应该 clear token
+            },
             toggleMobileSidebar() {
                 this.pageOptions.pageMobileSidebarToggled = !this.pageOptions.pageMobileSidebarToggled;
             },

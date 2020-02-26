@@ -9,6 +9,7 @@ import VueBootstrap from 'bootstrap-vue';
 import VueNVD3 from 'vue-nvd3';
 import VueInsProgressBar from 'vue-ins-progress-bar';
 import VueEventCalendar from 'vue-event-calendar';
+import Cookies from 'js-cookie';
 import VueSparkline from 'vue-sparklines';
 import * as VueGoogleMaps from 'vue2-google-maps';
 import Vueditor from '@agametov/vueditor';
@@ -46,15 +47,20 @@ import 'vue-slider-component/theme/antd.css';
 import './assets/css/default/app.min.css';
 import './scss/vue.scss';
 import 'bootstrap-social/bootstrap-social.css';
-import Cookies from 'js-cookie';
 import App from './App.vue';
 import store from './store/index';
 import './services/axios';
 import axios from 'axios';
 import Message from './tools/Message';
+// api
+import account from './services/api/account/account';
+// 复制
+Vue.prototype.$account = account.account;
+// api
+
+Vue.prototype.$axios = axios;
 Vue.prototype.$Message = Message.MessageFuntion;
 Vue.prototype.cookies = Cookies;
-Vue.prototype.$axios = axios;
 Vue.use(VueX);
 Vue.use(ElementUI);
 Vue.use(VueRouter);
