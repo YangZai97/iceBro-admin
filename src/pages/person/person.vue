@@ -8,7 +8,8 @@
             </el-input>
             <el-button>查询</el-button>
             <el-button type="primary"
-                       @click="dialogFormVisible = true">新增</el-button>
+                       @click="dialogFormVisible = true">新增
+            </el-button>
             <el-dialog title="客户信息"
                        :visible.sync="dialogFormVisible"
                        width="370px"
@@ -64,7 +65,8 @@
                      class="dialog-footer">
                     <el-button @click="dialogFormVisible = false">取 消</el-button>
                     <el-button type="primary"
-                               @click="dialogFormVisible = false">确 定</el-button>
+                               @click="dialogFormVisible = false">确 定
+                    </el-button>
                 </div>
             </el-dialog>
         </div>
@@ -104,10 +106,12 @@
                                  fixed="right">
                     <template slot-scope="scope">
                         <el-button size="mini"
-                                   @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                                   @click="handleEdit(scope.$index, scope.row)">编辑
+                        </el-button>
                         <el-button size="mini"
                                    type="danger"
-                                   @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                                   @click="handleDelete(scope.$index, scope.row)">删除
+                        </el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -126,77 +130,94 @@
 </template>
 
 <script>
-export default {
-    data () {
-        return {
-            dialogFormVisible: false,
-            formLabelWidth: '120px',
-            form: {
-                name: '',
-                phone: '',
-                shopName: '',
-                start: '',
-                adress: '',
-                adressAll: '',
-                money: ''
+    export default {
+        data() {
+            return {
+                dialogFormVisible: false,
+                formLabelWidth: '120px',
+                form: {
+                    name: '',
+                    phone: '',
+                    shopName: '',
+                    start: '',
+                    adress: '',
+                    adressAll: '',
+                    money: ''
+                },
+                currentPage: 1,
+                searchValue: '',
+                tableData: [{
+                    id: '1314520',
+                    date: '2020-02-02',
+                    name: '张三',
+                    phone: '13782984329',
+                    shopName: '沙县小吃',
+                    money: '20',
+                    adress: '湖南省长沙市天心区XX街道XX号',
+                    start: '东边冻库'
+                }, {
+                    id: '1314520',
+                    date: '2020-02-02',
+                    name: '张三',
+                    phone: '13782984329',
+                    shopName: '沙县小吃',
+                    money: '20',
+                    adress: '湖南省长沙市天心区XX街道XX号',
+                    start: '东边冻库'
+                }, {
+                    id: '1314520',
+                    date: '2020-02-02',
+                    name: '张三',
+                    phone: '13782984329',
+                    shopName: '沙县小吃',
+                    money: '20',
+                    adress: '湖南省长沙市天心区XX街道XX号',
+                    start: '东边冻库'
+                }]
+            };
+        },
+        methods: {
+            handleEdit(index, row) {
+                console.log(index, row);
             },
-            currentPage: 1,
-            searchValue: '',
-            tableData: [{
-                id: '1314520',
-                date: '2020-02-02',
-                name: '张三',
-                phone: '13782984329',
-                shopName: '沙县小吃',
-                money: '20',
-                adress: '湖南省长沙市天心区XX街道XX号',
-                start: '东边冻库'
-            }, {
-                id: '1314520',
-                date: '2020-02-02',
-                name: '张三',
-                phone: '13782984329',
-                shopName: '沙县小吃',
-                money: '20',
-                adress: '湖南省长沙市天心区XX街道XX号',
-                start: '东边冻库'
-            }, {
-                id: '1314520',
-                date: '2020-02-02',
-                name: '张三',
-                phone: '13782984329',
-                shopName: '沙县小吃',
-                money: '20',
-                adress: '湖南省长沙市天心区XX街道XX号',
-                start: '东边冻库'
-            }]
-        };
-    },
-    methods: {
-        handleEdit (index, row) {
-            console.log(index, row);
-        },
-        handleDelete (index, row) {
-            console.log(index, row);
-        },
-        handleCurrentChange (val) {
-            console.log(`当前页: ${val}`);
+            handleDelete(index, row) {
+                console.log(index, row);
+            },
+            handleCurrentChange(val) {
+                console.log(`当前页: ${val}`);
+            }
         }
-    }
-};
+    };
 </script>
 
 <style scoped>
-.user-head {
-    display: flex;
-    justify-content: flex-start;
-}
-.user-input {
-    width: 40%;
-    padding-right: 20px;
-}
-.page {
-    text-align: center;
-}
+    .user-head {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .user-input {
+        width: 40%;
+        padding-right: 20px;
+    }
+
+    .page {
+        text-align: center;
+    }
+    /deep/ .el-table th > .cell {
+        text-align: center;
+    }
+
+    /deep/ .el-table .cell {
+        text-align: center;
+    }
+
+    /deep/ .el-table__column-filter-trigger i {
+        color: #ffffff;
+    }
+
+    /deep/ .el-table th > .cell.highlight {
+        color: #ffffff;
+    }
 </style>
 
