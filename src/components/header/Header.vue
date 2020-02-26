@@ -71,7 +71,7 @@
                         <span class="d-none d-md-inline" @click="logOut">登录</span>
                     </template>
                     <template slot="button-content" v-else>
-                        <span class="d-none d-md-inline">Admin</span>
+                        <span class="d-md-inline">Admin</span>
                     </template>
                     <b-dropdown-item @click="logOut">退出登录</b-dropdown-item>
                 </b-nav-item-dropdown>
