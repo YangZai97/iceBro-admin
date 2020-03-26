@@ -56,8 +56,10 @@ import Message from './tools/Message';
 import account from './services/api/account/account';
 import order from './services/api/order/order';
 import user from './services/api/user/user';
+import client from './services/api/client/client';
 // 复制
 Vue.prototype.$account = account.account;
+Vue.prototype.$client = client.client;
 Vue.prototype.$order = order.order;
 Vue.prototype.$user = user.user;
 // api
