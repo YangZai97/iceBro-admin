@@ -97,13 +97,13 @@
                     password: this.password
                 };
                 this.$account.login(data).then(res => {
-                    let token = 'JWT ' + res.data.access;
+                    let token = 'Bearer ' + res.data.data;
                     this.cookies.set('token', token);
                     this.$Message.success('登录成功！');
                     this.$router.push({ path: '/user' });
                 }).catch(err => {
                     console.log(err);
-                    this.$Message.error('账号或密码错误，请重试！');
+                    this.$Message.error('账号密码错误或被冻结，请重试！');
                     this.cookies.remove('token');
                 });
             }

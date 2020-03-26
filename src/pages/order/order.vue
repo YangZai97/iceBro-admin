@@ -23,6 +23,7 @@
             <el-table-column
                 prop="date"
                 label="日期"
+                width="120"
             >
             </el-table-column>
             <el-table-column
@@ -33,9 +34,6 @@
             <el-table-column
                 prop="name"
                 label="员工"
-                :filters="filterName"
-                :column-key="'name'"
-                :filter-multiple="false"
             >
             </el-table-column>
             <el-table-column
@@ -57,7 +55,9 @@
             </el-table-column>
             <el-table-column
                 prop="phone"
-                label="电话">
+                label="电话"
+                width="120"
+            >
             </el-table-column>
             <el-table-column
                 prop="addressTo"
@@ -112,12 +112,14 @@
             </el-table-column>
             <el-table-column
                 prop="fromDate"
-                label="派送时间">
+                label="派送时间"
+                width="120"
+            >
             </el-table-column>
             <el-table-column
                 fixed="right"
                 label="操作"
-                width="100">
+                width="180">
                 <template slot-scope="scope">
                     <el-button @click="receipt(scope.row)" size="small">确认收款</el-button>
                     <el-button type="danger" @click="deleteRow(scope.row)" size="small">删除</el-button>
@@ -129,6 +131,7 @@
                 @current-change="handleCurrentChange"
                 :current-page="currentPage"
                 :pager-count="5"
+                :page-size="20"
                 small
                 layout="total, prev, pager, next, jumper"
                 :total="total">
@@ -237,15 +240,23 @@
                 }]
             };
         },
+        mounted() {
+            this.getList();
+        },
         methods: {
             getList() {
                 // eslint-disable-next-line no-unused-vars
                 let data = {
                     page: this.currentPage,
+                    // eslint-disable-next-line camelcase
+                    page_size: 20,
                     search: this.searchValue,
                     timeValue: this.timeValue,
                     filteredName: this.filteredName
                 };
+                this.$order.orderList(data).then(res=>{
+                    console.log(res);
+                });
             },
             search() {
                 console.log(this.searchValue, this.timeValue);

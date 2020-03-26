@@ -26,7 +26,7 @@ axios.interceptors.response.use(
         if (error.response.status) {
             switch (error.response.status) {
                 case 401:
-                    Message.error('登录已失效，请重新登录后再试');
+                    Message.error('登录已失效或已被冻结，请重新登录后再试');
                     localStorage.clear();
                     Cookies.remove('token');
                     router.push({ path: '/' });

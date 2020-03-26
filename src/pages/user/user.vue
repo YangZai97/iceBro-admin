@@ -6,7 +6,7 @@
                       class="user-input"
                       clearable>
             </el-input>
-            <el-button>查询</el-button>
+            <el-button @click="search">搜索</el-button>
             <el-button type="primary"
                        @click="dialogFormVisible = true">新增
             </el-button>
@@ -14,35 +14,33 @@
                        :visible.sync="dialogFormVisible"
                        width="370px"
                        center>
-                <el-form :model="form">
-                    <el-form-item label="手机"
+                <el-form>
+                    <el-form-item label="用户名"
                                   :label-width="formLabelWidth">
-                        <el-input v-model="form.phone"
+                        <el-input v-model="phone"
                                   autocomplete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="密码"
                                   :label-width="formLabelWidth">
-                        <el-input v-model="form.password"
+                        <el-input v-model="password"
                                   autocomplete="off"
                                   show-password></el-input>
                     </el-form-item>
                     <el-form-item label="账号状态"
                                   :label-width="formLabelWidth">
-                        <el-select v-model="form.status"
+                        <el-select v-model="status"
                                    placeholder="请选择账号状态">
-                            <el-option label="正常"
-                                       value="zhengchang"></el-option>
-                            <el-option label="冻结"
-                                       value="dongjie"></el-option>
-                            <el-option label="可用"
-                                       value="keyong"></el-option>
-                            <el-option label="拉黑"
-                                       value="lahei"></el-option>
+                            <el-option
+                                v-for="item in options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                            </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="车牌"
+                    <el-form-item label="所属老板"
                                   :label-width="formLabelWidth">
-                        <el-input v-model="form.car"
+                        <el-input v-model="car"
                                   autocomplete="off"></el-input>
                     </el-form-item>
                 </el-form>
@@ -50,7 +48,7 @@
                      class="dialog-footer">
                     <el-button @click="dialogFormVisible = false">取 消</el-button>
                     <el-button type="primary"
-                               @click="dialogFormVisible = false">确 定
+                               @click="addUser">确 定
                     </el-button>
                 </div>
             </el-dialog>
@@ -59,21 +57,27 @@
             <el-table :data="tableData"
                       style="width: 100%;margin-top:10px;"
                       :header-cell-style="{background:'#0E99EC',color:'#ffffff'}">
-                <el-table-column prop="date"
+                <el-table-column prop="CreatedAt"
                                  label="日期"
-                                 width="140">
+                                 width="300">
                 </el-table-column>
-                <el-table-column prop="id"
+                <el-table-column prop="UserName"
                                  label="账号"
                                  width="140">
                 </el-table-column>
-                <el-table-column prop="type"
-                                 label="类型">
+                <el-table-column
+                    label="类型">
+                    <template slot-scope="scope">
+                        {{scope.row.IsAdmin |status}}
+                    </template>
                 </el-table-column>
-                <el-table-column prop="status"
-                                 label="状态">
+                <el-table-column
+                    label="状态">
+                    <template slot-scope="scope">
+                        {{scope.row.IsActive |type}}
+                    </template>
                 </el-table-column>
-                <el-table-column prop="boss"
+                <el-table-column prop="CarNumber"
                                  label="所属老板">
                 </el-table-column>
                 <el-table-column label="操作"
@@ -81,7 +85,8 @@
                                  fixed="right">
                     <template slot-scope="scope">
                         <el-button size="mini"
-                                   @click="handleEdit(scope.$index, scope.row)">编辑
+                                   type="primary"
+                                   @click="handleEdit(scope.$index, scope.row)">冻结
                         </el-button>
                         <el-button size="mini"
                                    type="danger"
@@ -98,7 +103,7 @@
                            small
                            :pager-count="5"
                            layout="total, prev, pager, next, jumper"
-                           :total="100">
+                           :total="total">
             </el-pagination>
         </div>
     </div>
@@ -110,44 +115,106 @@
             return {
                 dialogFormVisible: false,
                 formLabelWidth: '120px',
-                form: {
-                    phone: '',
-                    password: '',
-                    status: '',
-                    car: ''
-                },
+                total: 0,
+                phone: '',
+                password: '',
+                status: true,
+                car: '',
+                options: [{
+                    value: true,
+                    label: '正常'
+                }, {
+                    value: false,
+                    label: '冻结'
+                }],
                 currentPage: 1,
                 searchValue: '',
-                tableData: [{
-                    date: '2020-02-02',
-                    id: '1314520',
-                    type: '员工',
-                    status: '正常',
-                    boss: 'Jennry'
-                }, {
-                    date: '2020-02-02',
-                    id: '1314520',
-                    type: '管理员',
-                    status: '冻结',
-                    boss: 'Jennry'
-                }, {
-                    date: '2020-02-02',
-                    id: '1314520',
-                    type: '管理员',
-                    status: '可用',
-                    boss: 'Jennry'
-                }]
+                tableData: []
             };
         },
+        mounted() {
+            this.getList();
+        },
+        filters: {
+            type(val) {
+                if (val) {
+                    return '正常';
+                } else {
+                    return '冻结';
+                }
+            },
+            status(val) {
+                if (val) {
+                    return '管理员';
+                } else {
+                    return '员工';
+                }
+            }
+        },
         methods: {
+            search() {
+                this.currentPage = 1;
+                this.getList();
+            },
+            addUser() {
+                if (this.car && this.password && this.phone && this.status) {
+                    let data = {
+                        carNumber: this.car,
+                        password: this.password,
+                        UserName: this.phone,
+                        isActive: this.status
+                    };
+                    console.log(data);
+                    this.$user.createUserList(data).then(res => {
+                        this.dialogFormVisible = false;
+                        console.log(res);
+                        this.getList();
+                        this.$Message.success('创建成功');
+                    }).catch(err => {
+                        console.log(err);
+                        this.$Message.error('创建失败');
+                    });
+                } else {
+                    this.$Message.error('用户信息不完全');
+                }
+
+            },
+            getList() {
+                let data = {
+                    search: this.searchValue,
+                    page: this.currentPage,
+                    // eslint-disable-next-line camelcase
+                    page_size: 20
+                };
+                this.$user.getUserList(data).then(res => {
+                    console.log(res);
+                    this.total = res.data.count;
+                    this.tableData = res.data.data;
+                });
+            },
             handleEdit(index, row) {
+                row.IsActive = !row.IsActive;
+                this.$user.updateUserList(row.ID, row).then(res => {
+                    console.log(res);
+                    this.getList();
+                    this.$Message.success('操作成功');
+                });
                 console.log(index, row);
             },
             handleDelete(index, row) {
                 console.log(index, row);
+                // eslint-disable-next-line no-unused-vars
+                this.$user.deleteUserList(row.ID).then(res => {
+                    this.getList();
+                    this.$Message.success('删除成功');
+                    // eslint-disable-next-line no-unused-vars
+                }).catch(err => {
+                    this.$Message.error('删除失败');
+                });
             },
             handleCurrentChange(val) {
-                console.log(`当前页: ${val}`);
+                this.currentPage = val;
+                this.getList();
             }
         }
     };
@@ -166,6 +233,7 @@
 
     .page {
         text-align: center;
+        margin-top: 10px;
     }
 
     /deep/ .el-table th > .cell {

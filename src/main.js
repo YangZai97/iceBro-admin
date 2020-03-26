@@ -54,8 +54,12 @@ import axios from 'axios';
 import Message from './tools/Message';
 // api
 import account from './services/api/account/account';
+import order from './services/api/order/order';
+import user from './services/api/user/user';
 // 复制
 Vue.prototype.$account = account.account;
+Vue.prototype.$order = order.order;
+Vue.prototype.$user = user.user;
 // api
 
 Vue.prototype.$axios = axios;
