@@ -38,7 +38,7 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="所属老板"
+                    <el-form-item label="车牌号"
                                   :label-width="formLabelWidth">
                         <el-input v-model="car"
                                   autocomplete="off"></el-input>
@@ -59,11 +59,20 @@
                       :header-cell-style="{background:'#0E99EC',color:'#ffffff'}">
                 <el-table-column prop="CreatedAt"
                                  label="日期"
-                                 width="300">
+                                 width="200">
                 </el-table-column>
                 <el-table-column prop="UserName"
                                  label="账号"
                                  width="140">
+                </el-table-column>
+                <el-table-column
+                    label="密码"
+                    width="140">
+                    <template slot-scope="row">
+                        <el-input v-model="row.row.Password" v-if="edit==true&&editOk==row.row"
+                                  placeholder="请输入内容"></el-input>
+                        <span v-else>{{row.row.Password}}</span>
+                    </template>
                 </el-table-column>
                 <el-table-column
                     label="类型">
@@ -77,21 +86,37 @@
                         {{scope.row.IsActive |type}}
                     </template>
                 </el-table-column>
-                <el-table-column prop="CarNumber"
-                                 label="所属老板">
+                <el-table-column
+                    label="车牌号">
+                    <template slot-scope="row">
+                        <el-input v-model="row.row.CarNumber" v-if="edit==true&&editOk==row.row"
+                                  placeholder="请输入内容"></el-input>
+                        <span v-else>{{row.row.CarNumber}}</span>
+                    </template>
                 </el-table-column>
                 <el-table-column label="操作"
-                                 width="160"
+                                 width="190"
                                  fixed="right">
                     <template slot-scope="scope">
-                        <el-button size="mini"
-                                   type="primary"
-                                   @click="handleEdit(scope.$index, scope.row)">冻结
-                        </el-button>
-                        <el-button size="mini"
-                                   type="danger"
-                                   @click="handleDelete(scope.$index, scope.row)">删除
-                        </el-button>
+                        <el-button-group>
+                            <el-button size="mini"
+                                       type="info"
+                                       @click="handleEdit(scope.$index, scope.row)">冻结
+                            </el-button>
+                            <el-button v-if="edit==false||editOk!==scope.row" size="mini"
+                                       @click="edit=!edit, editOk=scope.row" type="primary">
+                                <span>编辑</span>
+                            </el-button>
+                            <el-button v-else size="mini"
+                                       @click="edit=!edit, editOk=null, handleEdit(scope.$index, scope.row)">
+                                <span>保存</span>
+                            </el-button>
+
+                            <el-button size="mini"
+                                       type="danger"
+                                       @click="handleDelete(scope.$index, scope.row)">删除
+                            </el-button>
+                        </el-button-group>
                     </template>
                 </el-table-column>
             </el-table>
@@ -119,6 +144,8 @@
                 phone: '',
                 password: '',
                 status: true,
+                edit: false,
+                editOk: null,
                 car: '',
                 options: [{
                     value: true,

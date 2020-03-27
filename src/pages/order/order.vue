@@ -23,7 +23,7 @@
             <el-table-column
                 prop="CreatedAt"
                 label="日期"
-                width="120"
+                width="160"
             >
             </el-table-column>
             <el-table-column
@@ -37,13 +37,18 @@
             >
             </el-table-column>
             <el-table-column
-                prop="admin"
-                label="管理员"
+                label="所属管理员"
+                width="120"
             >
+                <template slot-scope="scope">
+                    <span v-if="scope.row.Staff.Boss">{{scope.row.Staff.Boss.UserName}}</span>
+                </template>
             </el-table-column>
             <el-table-column
-                prop="ClientID"
-                label="客户编号">
+                prop="Staff.CarNumber"
+                label="车牌号"
+                width="120"
+            >
             </el-table-column>
             <el-table-column
                 prop="ClientName"
@@ -113,13 +118,13 @@
             <el-table-column
                 prop="UpdatedAt"
                 label="派送时间"
-                width="120"
+                width="160"
             >
             </el-table-column>
             <el-table-column
                 fixed="right"
                 label="操作"
-                width="180">
+                width="80">
                 <template slot-scope="scope">
                     <!--<el-button @click="receipt(scope.row, scope.$index)" size="small">确认收款</el-button>-->
                     <el-button type="danger" @click="deleteRow(scope.row)" size="small">删除</el-button>
@@ -150,6 +155,10 @@
                 edit: null,
                 searchValue: null,
                 timeValue: null,
+                // eslint-disable-next-line camelcase
+                start_date: null,
+                // eslint-disable-next-line camelcase
+                end_date: null,
                 filteredName: null,
                 filterName: [{text: '张三', value: '张三'}, {text: '李四', value: '李四'}],
                 options: [
@@ -179,10 +188,13 @@
                     // eslint-disable-next-line camelcase
                     page_size: 20,
                     search: this.searchValue,
-                    timeValue: this.timeValue,
-                    filteredName: this.filteredName
+                    // eslint-disable-next-line camelcase
+                    start_date: this.start_date,
+                    // eslint-disable-next-line camelcase
+                    end_date: this.end_date
+                    // filteredName: this.filteredName
                 };
-                this.$order.orderList(data).then(res=>{
+                this.$order.orderList(data).then(res => {
                     console.log(res.data);
                     this.tableData = res.data.data;
                     this.total = res.data.count;
@@ -202,7 +214,10 @@
                 });
             },
             timeChange() {
-                console.log(this.timeValue);
+                // eslint-disable-next-line camelcase
+                this.start_date = this.timeValue[0];
+                // eslint-disable-next-line camelcase
+                this.end_date = this.timeValue[1];
             },
             // 确认收款
             // receipt(row, index) {
@@ -231,8 +246,12 @@
                 this.getList();
             },
             reset() {
-                this.searchValue = null;
                 this.timeValue = null;
+                this.searchValue = null;
+                // eslint-disable-next-line camelcase
+                this.start_date = null;
+                // eslint-disable-next-line camelcase
+                this.end_date = null;
                 this.search();
             },
             handleCurrentChange(val) {

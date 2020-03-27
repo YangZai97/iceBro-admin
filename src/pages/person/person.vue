@@ -69,15 +69,17 @@
                       style="width: 100%;margin-top:10px;"
                       :header-cell-style="{background:'#0E99EC',color:'#ffffff'}">
                 <el-table-column prop="ID"
-                                 label="编号">
+                                 label="编号"
+                                 width="80">
                 </el-table-column>
                 <el-table-column prop="CreatedAt"
                                  label="日期"
-                                 width="140">
+                                 width="160">
                 </el-table-column>
                 <el-table-column label="客户">
                     <template slot-scope="row">
-                        <el-input v-model="row.row.Name" v-if="edit==true&&editOk==row.row" placeholder="请输入内容"></el-input>
+                        <el-input v-model="row.row.Name" v-if="edit==true&&editOk==row.row"
+                                  placeholder="请输入内容"></el-input>
                         <span v-else>{{row.row.Name}}</span>
                     </template>
                 </el-table-column>
@@ -85,21 +87,24 @@
                                  label="电话"
                                  width="140">
                     <template slot-scope="row">
-                        <el-input v-model="row.row.Phone" v-if="edit==true&&editOk==row.row" placeholder="请输入内容"></el-input>
+                        <el-input v-model="row.row.Phone" v-if="edit==true&&editOk==row.row"
+                                  placeholder="请输入内容"></el-input>
                         <span v-else>{{row.row.Phone}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="Shop"
                                  label="店名">
                     <template slot-scope="row">
-                        <el-input v-model="row.row.Shop" v-if="edit==true&&editOk==row.row" placeholder="请输入内容"></el-input>
+                        <el-input v-model="row.row.Shop" v-if="edit==true&&editOk==row.row"
+                                  placeholder="请输入内容"></el-input>
                         <span v-else>{{row.row.Shop}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="Price"
                                  label="单价(元/件)">
                     <template slot-scope="row">
-                        <el-input v-model="row.row.Price" v-if="edit==true&&editOk==row.row" placeholder="请输入内容"></el-input>
+                        <el-input v-model="row.row.Price" v-if="edit==true&&editOk==row.row"
+                                  placeholder="请输入内容"></el-input>
                         <span v-else>{{row.row.Price}}</span>
                     </template>
                 </el-table-column>
@@ -107,7 +112,8 @@
                                  label="地址"
                                  width="140">
                     <template slot-scope="row">
-                        <el-input v-model="row.row.Address" v-if="edit==true&&editOk==row.row" placeholder="请输入内容"></el-input>
+                        <el-input v-model="row.row.Address" v-if="edit==true&&editOk==row.row"
+                                  placeholder="请输入内容"></el-input>
                         <span v-else>{{row.row.Address}}</span>
                     </template>
                 </el-table-column>
@@ -125,21 +131,25 @@
                     </template>
                 </el-table-column>
                 <el-table-column label="操作"
-                                 width="160"
+                                 width="140"
                                  fixed="right">
                     <template slot-scope="scope">
-                        <el-button v-if="edit==false||editOk!==scope.row" size="mini"
-                                   @click="edit=!edit, editOk=scope.row">
-                            <span>编辑</span>
-                        </el-button>
-                        <el-button v-else size="mini"
-                                   @click="edit=!edit, editOk=null, handleEdit(scope.$index, scope.row)">
-                            <span>保存</span>
-                        </el-button>
-                        <el-button size="mini"
-                                   type="danger"
-                                   @click="handleDelete(scope.row)">删除
-                        </el-button>
+                        <el-button-group>
+
+                            <el-button v-if="edit==false||editOk!==scope.row" size="mini"
+                                       @click="edit=!edit, editOk=scope.row" type="primary">
+                                <span>编辑</span>
+                            </el-button>
+                            <el-button v-else size="mini"
+                                       @click="edit=!edit, editOk=null, handleEdit(scope.$index, scope.row)">
+                                <span>保存</span>
+                            </el-button>
+                            <el-button size="mini"
+                                       type="danger"
+                                       @click="handleDelete(scope.row)">删除
+                            </el-button>
+                        </el-button-group>
+
                     </template>
                 </el-table-column>
             </el-table>
@@ -169,14 +179,17 @@
                 searchValue: '',
                 tableData: [],
                 options: [{
-                    value: '中国',
-                    label: '中国',
+                    value: '民品福冻货批发市场',
+                    label: '民品福冻货批发市场',
                 }, {
-                    value: '日本',
-                    label: '日本',
+                    value: '陈家坝万吨冻品市场',
+                    label: '陈家坝万吨冻品市场',
                 }, {
-                    value: '巴西',
-                    label: '巴西',
+                    value: '凯尔国际冻品市场',
+                    label: '凯尔国际冻品市场',
+                }, {
+                    value: '其他批发市场',
+                    label: '其他批发市场',
                 }],
                 value: null,
                 edit: false,
@@ -199,7 +212,7 @@
                     this.total = res.data.count;
                 });
             },
-            search(){
+            search() {
                 this.currentPage = 1;
                 this.getUserInfo();
             },
@@ -219,7 +232,7 @@
                     this.getUserInfo();
                 });
             },
-            addUser(){
+            addUser() {
                 this.$client.addUser(this.form).then(() => {
                     this.$Message.success('增加成功！');
                     this.getUserInfo();
@@ -247,6 +260,7 @@
 
     .page {
         text-align: center;
+        margin-top: 10px;
     }
 
     /deep/ .el-table th > .cell {

@@ -3,6 +3,7 @@ import axios from 'axios';
 let order = {
     orderList,
     deleteRow,
+    fianceList,
     editRow
 };
 
@@ -28,6 +29,14 @@ function editRow(id, data) {
         data: data
     });
 }
+function fianceList(data) {
+    return axios({
+        url:'/api/admin/fiance',
+        method: 'get',
+        params: data
+    });
+}
+
 export default {
 
     order

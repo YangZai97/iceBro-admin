@@ -7,7 +7,7 @@
                     <div class="stats-icon"><i class="fa fa-dollar-sign fa-fw"></i></div>
                     <div class="stats-info">
                         <h4>当日营收</h4>
-                        <p>3,291,922</p>
+                        <p>{{day}}</p>
                     </div>
                 </div>
             </div>
@@ -18,7 +18,7 @@
                     <div class="stats-icon"><i class="fa fa-dollar-sign fa-fw"></i></div>
                     <div class="stats-info">
                         <h4>本周营收</h4>
-                        <p>20.44%</p>
+                        <p>{{week}}</p>
                     </div>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                     <div class="stats-icon"><i class="fa fa-dollar-sign fa-fw"></i></div>
                     <div class="stats-info">
                         <h4>本月营收</h4>
-                        <p>1,291,922</p>
+                        <p>{{month}}</p>
                     </div>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                     <div class="stats-icon"><i class="fa fa-dollar-sign fa-fw"></i></div>
                     <div class="stats-info">
                         <h4>本年营收</h4>
-                        <p>100,121,231</p>
+                        <p>{{year}}</p>
                     </div>
                 </div>
             </div>
@@ -68,53 +68,40 @@
                 style="width: 100%;margin-top: 10px"
                 :header-cell-style="{background:'#0E99EC',color:'#ffffff'}">
                 <el-table-column
-                    prop="name"
-                    label="账号"
-                    :filters="filterName"
-                    :column-key="'name'"
-                    :filter-multiple="false"
+                    prop="StaffName"
+                    label="员工账号"
                 >
                 </el-table-column>
 
                 <el-table-column
-                    prop="order"
+                    prop="Orders"
                     label="订单数"
                 >
                 </el-table-column>
                 <el-table-column
-                    prop="allNumber"
+                    prop="Many"
                     label="总件树"
                 >
                 </el-table-column>
 
                 <el-table-column
-                    prop="rechar"
+                    prop="Delay"
                     label="滞留单数"
                 >
                 </el-table-column>
                 <el-table-column
-                    prop="noMoney"
+                    prop="NotReceive"
                     label="未付金额">
                 </el-table-column>
                 <el-table-column
-                    prop="yMoney"
+                    prop="ShouldReceive"
                     label="应收">
                 </el-table-column>
                 <el-table-column
-                    prop="reMoney"
+                    prop="Received"
                     label="实收">
                 </el-table-column>
             </el-table>
-        </div>
-        <div style="text-align: center;margin-top: 10px">
-            <el-pagination
-                @current-change="handleCurrentChange"
-                :current-page="currentPage"
-                :pager-count="5"
-                small
-                layout="total, prev, pager, next, jumper"
-                :total="total">
-            </el-pagination>
         </div>
     </div>
 </template>
@@ -126,56 +113,52 @@
                 filteredName: null,
                 filterName: [{text: '张三', value: '张三'}, {text: '李四', value: '李四'}],
                 total: 0,
-                currentPage: 1,
                 timeValue: null,
-                tableData: [
-                    {
-                        name: '小李',
-                        order: '130',
-                        allNumber: '12',
-                        rechar: '1212',
-                        noMoney: '11000',
-                        yMoney: '212123',
-                        reMoney: '4564'
-                    },
-                    {
-                        name: '小李',
-                        order: '130',
-                        allNumber: '12',
-                        rechar: '1212',
-                        noMoney: '11000',
-                        yMoney: '212123',
-                        reMoney: '4564'
-                    },
-                    {
-                        name: '小李',
-                        order: '130',
-                        allNumber: '12',
-                        rechar: '1212',
-                        noMoney: '11000',
-                        yMoney: '212123',
-                        reMoney: '4564'
-                    }, {
-                        name: '小李',
-                        order: '130',
-                        allNumber: '12',
-                        rechar: '1212',
-                        noMoney: '11000',
-                        yMoney: '212123',
-                        reMoney: '4564'
-                    }]
+                // eslint-disable-next-line camelcase
+                start_date: null,
+                // eslint-disable-next-line camelcase
+                end_date: null,
+                month: 0,
+                week: 0,
+                day: 0,
+                year: 0,
+                tableData: []
             };
+        },
+        mounted() {
+            this.getlist();
         },
         methods: {
             getlist() {
-
+                let data = {
+                    // eslint-disable-next-line camelcase
+                    start_date: this.start_date,
+                    // eslint-disable-next-line camelcase
+                    end_date: this.end_date
+                };
+                this.$order.fianceList(data).then(res => {
+                    console.log(res);
+                    this.day = res.data.Day;
+                    this.week = res.data.Week;
+                    this.year = res.data.Year;
+                    this.month = res.data.Month;
+                    this.tableData = res.data.data;
+                });
             },
             reset() {
                 this.timeValue = null;
-                this.search();
+                // eslint-disable-next-line camelcase
+                this.start_date = null;
+                // eslint-disable-next-line camelcase
+                this.end_date = null;
+                this.getlist();
             },
             search() {
-                console.log(this.timeValue);
+                // eslint-disable-next-line camelcase
+                this.start_date = this.timeValue[0];
+                // eslint-disable-next-line camelcase
+                this.end_date = this.timeValue[1];
+                this.getlist();
             },
             timeChange() {
                 console.log(this.timeValue);
@@ -202,6 +185,7 @@
         display: flex;
         justify-content: flex-start;
     }
+
     /deep/ .el-table th > .cell {
         text-align: center;
     }
