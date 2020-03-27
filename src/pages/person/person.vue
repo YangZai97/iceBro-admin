@@ -7,7 +7,7 @@
                       @clear="getUserInfo"
                       clearable>
             </el-input>
-            <el-button @click="getUserInfo()">查询</el-button>
+            <el-button @click="search">查询</el-button>
             <el-button type="primary"
                        @click="dialogFormVisible = true">新增
             </el-button>
@@ -198,6 +198,10 @@
                     this.tableData = res.data.data;
                     this.total = res.data.count;
                 });
+            },
+            search(){
+                this.currentPage = 1;
+                this.getUserInfo();
             },
             handleEdit(index, row) {
                 console.log(index, row);

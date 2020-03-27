@@ -21,18 +21,18 @@
             style="width: 100%;margin-top: 10px"
             :header-cell-style="{background:'#0E99EC',color:'#ffffff'}">
             <el-table-column
-                prop="date"
+                prop="CreatedAt"
                 label="日期"
                 width="120"
             >
             </el-table-column>
             <el-table-column
-                prop="order"
+                prop="ID"
                 label="订单编号"
             >
             </el-table-column>
             <el-table-column
-                prop="name"
+                prop="StaffName"
                 label="员工"
             >
             </el-table-column>
@@ -42,63 +42,63 @@
             >
             </el-table-column>
             <el-table-column
-                prop="personId"
+                prop="ClientID"
                 label="客户编号">
             </el-table-column>
             <el-table-column
-                prop="person"
+                prop="ClientName"
                 label="客户">
             </el-table-column>
             <el-table-column
-                prop="home"
+                prop="Shop"
                 label="店名">
             </el-table-column>
             <el-table-column
-                prop="phone"
+                prop="PhoneNumber"
                 label="电话"
                 width="120"
             >
             </el-table-column>
             <el-table-column
-                prop="addressTo"
+                prop="Store"
                 label="起点">
             </el-table-column>
             <el-table-column
-                prop="price"
+                prop="Price"
                 label="单价">
             </el-table-column>
             <el-table-column
-                prop="numberP"
+                prop="Batch"
                 label="票数">
             </el-table-column>
             <el-table-column
                 label="总件数">
                 <template slot-scope="scope">
-                    <el-input v-if="editOk==scope.row&&edit==1" v-model="scope.row.allNumber"
-                              @blur="blur(scope.row)"></el-input>
-                    <span @click="edit=1,editOk=scope.row" v-else>{{scope.row.allNumber}}</span>
+                    <el-input v-if="editOk==scope.row&&edit==1" v-model="scope.row.Many"
+                              @blur="blur(scope.row, scope.$index)"></el-input>
+                    <span @click="edit=1, editOk=scope.row" v-else>{{scope.row.Many}}</span>
                 </template>
             </el-table-column>
             <el-table-column
                 label="应收运费">
                 <template slot-scope="scope">
-                    <el-input v-if="editOk==scope.row&&edit==2" v-model="scope.row.realyMoney"
-                              @blur="blur(scope.row)"></el-input>
-                    <span @click="edit=2,editOk=scope.row" v-else>{{scope.row.realyMoney}}</span>
+                    <el-input v-if="editOk==scope.row&&edit==2" v-model="scope.row.Amount"
+                              @blur="blur(scope.row, scope.$index)"></el-input>
+                    <span @click="edit=2,editOk=scope.row" v-else>{{scope.row.Amount}}</span>
                 </template>
             </el-table-column>
             <el-table-column
                 label="实收金额">
                 <template slot-scope="scope">
-                    <el-input v-if="editOk==scope.row&&edit==3" v-model="scope.row.shiMoeny"
-                              @blur="blur(scope.row)"></el-input>
-                    <span @click="edit=3,editOk=scope.row" v-else>{{scope.row.shiMoeny}}</span>
+                    <el-input v-if="editOk==scope.row&&edit==3" v-model="scope.row.Money"
+                              @blur="blur(scope.row, scope.$index)"></el-input>
+                    <span @click="edit=3,editOk=scope.row" v-else>{{scope.row.Money}}</span>
                 </template>
             </el-table-column>
             <el-table-column
                 label="快件状态">
                 <template slot-scope="scope">
-                    <el-select @change='blur(scope.row)' v-model="scope.row.status "
+                    <el-select @change='blur(scope.row, scope.$index)' v-model="scope.row.Status "
                                v-if="(edit==4&&editOk==scope.row)">
                         <el-option
                             v-for="item in options"
@@ -107,11 +107,11 @@
                             :value="item.value">
                         </el-option>
                     </el-select>
-                    <span @click="edit=4,editOk=scope.row" v-else>{{scope.row.status}}</span>
+                    <span @click="edit=4,editOk=scope.row" v-else>{{scope.row.Status}}</span>
                 </template>
             </el-table-column>
             <el-table-column
-                prop="fromDate"
+                prop="UpdatedAt"
                 label="派送时间"
                 width="120"
             >
@@ -121,7 +121,7 @@
                 label="操作"
                 width="180">
                 <template slot-scope="scope">
-                    <el-button @click="receipt(scope.row)" size="small">确认收款</el-button>
+                    <!--<el-button @click="receipt(scope.row, scope.$index)" size="small">确认收款</el-button>-->
                     <el-button type="danger" @click="deleteRow(scope.row)" size="small">删除</el-button>
                 </template>
             </el-table-column>
@@ -165,79 +165,7 @@
                         label: '滞留中'
                     }
                 ],
-                tableData: [{
-                    date: '2016-05-02',
-                    order: '1000001',
-                    name: '王小虎',
-                    admin: '管理员',
-                    personId: '101',
-                    person: '客户1',
-                    home: '店名',
-                    phone: '1361761646',
-                    addressTo: '起点',
-                    price: '18',
-                    numberP: '12',
-                    allNumber: '120',
-                    realyMoney: '1300',
-                    realyYf: '12',
-                    shiMoeny: '1212',
-                    status: '派送中',
-                    fromDate: '2010-11-11'
-                }, {
-                    date: '2016-05-02',
-                    order: '1000001',
-                    name: '王小虎',
-                    admin: '管理员',
-                    personId: '101',
-                    person: '客户1',
-                    home: '店名',
-                    phone: '1361761646',
-                    addressTo: '起点',
-                    price: '18',
-                    numberP: '12',
-                    allNumber: '120',
-                    realyMoney: '1300',
-                    realyYf: '12',
-                    shiMoeny: '1212',
-                    status: '派送中',
-                    fromDate: '2010-11-11'
-                }, {
-                    date: '2016-05-02',
-                    order: '1000001',
-                    name: '王小虎',
-                    admin: '管理员',
-                    personId: '101',
-                    person: '客户1',
-                    home: '店名',
-                    phone: '1361761646',
-                    addressTo: '起点',
-                    price: '18',
-                    numberP: '12',
-                    allNumber: '120',
-                    realyMoney: '1300',
-                    realyYf: '12',
-                    shiMoeny: '1212',
-                    status: '派送中',
-                    fromDate: '2010-11-11'
-                }, {
-                    date: '2016-05-02',
-                    order: '1000001',
-                    name: '王小虎',
-                    admin: '管理员',
-                    personId: '101',
-                    person: '客户1',
-                    home: '店名',
-                    phone: '1361761646',
-                    addressTo: '起点',
-                    price: '18',
-                    numberP: '12',
-                    allNumber: '120',
-                    realyMoney: '1300',
-                    realyYf: '12',
-                    shiMoeny: '1212',
-                    status: '派送中',
-                    fromDate: '2010-11-11'
-                }]
+                tableData: []
             };
         },
         mounted() {
@@ -255,24 +183,44 @@
                     filteredName: this.filteredName
                 };
                 this.$order.orderList(data).then(res=>{
-                    console.log(res);
+                    console.log(res.data);
+                    this.tableData = res.data.data;
+                    this.total = res.data.count;
                 });
             },
             search() {
                 console.log(this.searchValue, this.timeValue);
+                this.currentPage = 1;
+                this.getList();
             },
-            blur(row) {
-                console.log(row);
+            blur(row, index) {
                 this.editOk = null;
+                let id = row.ID;
+                this.$order.editRow(id, this.tableData[index]).then(() => {
+                    this.$Message.success('更新成功');
+                    this.getList();
+                });
             },
             timeChange() {
                 console.log(this.timeValue);
             },
-            receipt(row) {
-                console.log(row);
-            },
+            // 确认收款
+            // receipt(row, index) {
+            //     console.log(row);
+            //     let id = row.ID;
+            //     this.tableData[index].Status = '已完成';
+            //     this.$order.editRow(id, this.tableData[index]).then(() => {
+            //         this.$Message.success('更新成功');
+            //         this.getList();
+            //     });
+            // },
             deleteRow(row) {
                 console.log(row);
+                let id = row.ID;
+                this.$order.deleteRow(id).then(() => {
+                    this.$Message.success('删除成功！');
+                    this.getList();
+                });
             },
             filterChange(filteredValue) {
 
@@ -288,9 +236,9 @@
                 this.search();
             },
             handleCurrentChange(val) {
-                console.log(`当前页: ${val}`);
                 this.currentPage = val;
                 this.getList();
+                console.log(`当前页: ${val}`);
             }
         }
     };
