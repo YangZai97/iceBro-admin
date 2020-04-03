@@ -35,12 +35,14 @@
                                   :label-width="formLabelWidth">
                         <el-select v-model="form.Store"
                                    placeholder="请选择起始冻库">
-                            <el-option label="中国"
-                                       value="中国"></el-option>
-                            <el-option label="巴西"
-                                       value="巴西"></el-option>
-                            <el-option label="日本"
-                                       value="日本"></el-option>
+                            <el-option label="民品福冻货批发市场"
+                                       value="民品福冻货批发市场"></el-option>
+                            <el-option label="陈家坝万吨冻品市场"
+                                       value="陈家坝万吨冻品市场"></el-option>
+                            <el-option label="凯尔国际冻品市场"
+                                       value="凯尔国际冻品市场"></el-option>
+                            <el-option label="其他批发市场"
+                                        value="其他批发市场"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="收货地址"
@@ -119,7 +121,7 @@
                 </el-table-column>
                 <el-table-column label="起点">
                     <template slot-scope="row">
-                        <el-select v-if="edit==true&&editOk==row.row" v-model="row.row.store" placeholder="请选择">
+                        <el-select v-if="edit==true&&editOk==row.row" v-model="row.row.Store" placeholder="请选择">
                             <el-option
                                 v-for="item in options"
                                 :key="item.value"
@@ -219,7 +221,15 @@
             handleEdit(index, row) {
                 console.log(index, row);
                 let id = row.ID;
-                this.$client.handleEdit(id, row).then(() => {
+                let data = {
+                    Name:row.Name,
+                    Phone:row.Phone,
+                    Shop:row.Shop,
+                    Price: Number(row.Price),
+                    Address:row.Address,
+                    Store:row.Store
+                };
+                this.$client.handleEdit(id, data).then(() => {
                     this.$Message.success('保存成功！');
                     this.getUserInfo();
                 });

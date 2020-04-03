@@ -69,8 +69,9 @@
                 label="起点">
             </el-table-column>
             <el-table-column
+                label="单价"
                 prop="Price"
-                label="单价">
+                >
             </el-table-column>
             <el-table-column
                 prop="Batch"
@@ -206,9 +207,16 @@
                 this.getList();
             },
             blur(row, index) {
+                console.log(index);
+                let data = {
+                    Many: Number(row.Many),
+                    Amount: Number(row.Amount),
+                    Money: Number(row.Money),
+                    Status:row.Status
+                };
                 this.editOk = null;
                 let id = row.ID;
-                this.$order.editRow(id, this.tableData[index]).then(() => {
+                this.$order.editRow(id, data).then(() => {
                     this.$Message.success('更新成功');
                     this.getList();
                 });

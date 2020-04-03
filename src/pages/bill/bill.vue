@@ -138,11 +138,11 @@
                 };
                 this.$order.fianceList(data).then(res => {
                     console.log(res);
-                    this.day = res.data.Day;
-                    this.week = res.data.Week;
-                    this.year = res.data.Year;
-                    this.month = res.data.Month;
-                    this.tableData = res.data.data;
+                    this.day = res.data.data.day;
+                    this.week = res.data.data.week;
+                    this.year = res.data.data.year;
+                    this.month = res.data.data.month;
+                    this.tableData = res.data.data.finance;
                 });
             },
             reset() {

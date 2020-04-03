@@ -13,7 +13,7 @@ module.exports = {
         },
         proxy: {
             '/api': {
-                target: process.env.PROXY_HOST,
+                target: "http://frozen.brokenstory.club/",
                 changeOrigin: true,
                 pathRewrite: {
                     '^/': ''
